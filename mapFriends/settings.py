@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,3 +81,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.facebook.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'social_auth.context_processors.social_auth_by_type_backends',
+)
+
+SOCIAL_AUTH_ENABLED_BACKENDS = (
+    'facebook',
+)
+
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+
+FACEBOOK_APP_ID = os.environ.get('ID')
+FACEBOOK_API_SECRET = os.environ.get('SECRET')
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/members/'
+LOGIN_ERROR_URL = '/login-error/'
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
