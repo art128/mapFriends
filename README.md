@@ -19,13 +19,18 @@ Estructura :
     │   ├── views.py
     │   └── wsgi.py
     ├── README.md
+    ├── static
+    │   ├── image.jpg
+    │   └── style.css
     └── templates
         ├── base.html
         ├── index.html
         └── map.html
 
+
     Templates : Se encuentran las vistas de la web, todas extienden de base.html
     mapFriends : Carpeta donde se encuentra la aplicación principal
+    static : Archivos estatitos, como los css
 
 Configuración :
 
