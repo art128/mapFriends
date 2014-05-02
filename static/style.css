@@ -1,0 +1,81 @@
+*{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+li{
+	list-style : none;
+}
+
+header{
+	margin-top: 1em;
+	font-size: 3em;
+	text-align: center;
+}
+
+footer{
+	text-align: center;
+}
+
+/**************************************
+			LOGIN
+***************************************/
+.login{
+	margin: 1em 33%;
+}
+	.login label{
+	}
+
+	.login input{
+		width: 100%;
+		margin-bottom: 1em;
+	}
+
+	.login input[type="submit"]{
+		float: right;
+		border-radius: 10px;
+	}
+
+/**************************************
+			INFO
+***************************************/
+section .box{
+	border: 2px solid black;
+	margin:.5em;
+}
+
+.user{
+	padding: 1em 2em;
+}
+
+.user img{
+}
+
+.user p{
+	text-align: center;
+}
+
+.user article li{
+	text-align: justify;
+	padding: .5em 0;
+}
+
+.find input{
+	margin: 1em 0 .5em 20%;
+}
+
+.find input[type="submit"]{
+	margin-left: 60%;
+	border-radius: 10px;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+
+/**********************
+MAPA
+**********************/
+section .googleMap{
+	height: 380px;
+}

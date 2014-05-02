@@ -1,5 +1,31 @@
 {% extends "base.html" %}
 
 {% block map %}
-    ALl info for login
+<div class="pure-u-7-24">
+    <div class="user box pure-g">               
+        <img class="pure-u-1-3" height="70px" width="60px" src="http://stc.obolog.net/multimedia/fotos/128000/127637/127637-90218.jpg" alt="perfil">
+        <p class="pure-u-2-3">Nombre<br>Apellidos</p>
+        <article class="pure-u-1">
+            <ul>
+                <li>Friend 1</li>
+                <li>Friend 2</li>
+                <li>Friend 3</li>
+            </ul>
+        </article>
+    </div>
+
+    <div class="find box">
+        <form action="">
+        <input type="radio" name="place" id="place">Nacimiento<br>
+        <input type="radio" name="place" id="place">Residencia<br>
+        <input type="submit" value="Buscar">
+        </form>
+    </div>
+</div>
+
+<div class="pure-u-17-24">
+    <div class="googleMap-js googleMap box">
+</div>
+
+</div>
 {% endblock map %}
