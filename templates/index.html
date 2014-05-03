@@ -1,14 +1,7 @@
 {% extends "base.html" %}
 
-{% block login %}
-<div class="pure-u-1-3 login">
-    <form>
-        <label for="name">Nombre</label><br>
-        <input type="text" name="" id="name"><br>
-        <label for="passwd">Constraseña</label><br>
-        <input type="password" name="" id="passwd"><br>
-        <input type="submit" value="Login">
-        or <a href="{% url 'socialauth_begin' 'facebook' %}">Login with Facebook</a>
-    </form>
-</div>
-{% endblock login %}
+{% block index %}
+    <section class="text">
+        <p>Bienvenido a mapFriends una aplicacion para ver donde se encuentran tus amigos de facebook. Logueate o sino registrate para poder usar esta aplicacion</p>
+    </section>
+{% endblock index %}

@@ -1,0 +1,12 @@
+{% include "base.html" %}
+
+{% block login %}
+    
+    <form action='.' method='POST' class='form-style'>
+        <h1>Registro</h1>
+        {% csrf_token %}
+        {{ register.as_p }}
+        <input type="submit" value="Registrar">
+    </form>    
+
+{% endblock login %}

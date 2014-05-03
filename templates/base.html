@@ -12,17 +12,22 @@
     <header>
         MapFriends
     </header>
-    <section class="pure-g">
+    <nav>
+       <a href="/login/" class="pure-button pure-button-active">Login</a>
+       <a href="/" class="pure-button pure-button-active">Inicio</a>
+       <a href="/register/" class="pure-button pure-button-active">Registrar</a>
+    </nav>
+    {% block index %}
+        
+    {% endblock index %}
+    <section class='pure-u-1-2'>
         {% block login %}
-            
+        
         {% endblock login %}
-
-        {% block map %}
-            
-        {% endblock map %}
     </section>
+
     <footer>
-        <p>Aplicación web hecha con Django para la asignatura de Programación Integrativa del año 2014</p>
+        Aplicación creada para la asignatura de Programación Integrativa de la Universidad de A Coruña.
     </footer>
 </body>
 </html>

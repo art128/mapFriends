@@ -9,31 +9,54 @@ li{
 }
 
 header{
-	margin-top: 1em;
-	font-size: 3em;
+	margin: .5em;
+	font-weight: bold;
+	font-size: 5em;
 	text-align: center;
+
 }
+
+nav{
+	margin-left: 25%;
+}
+	nav a{
+		width: 20%;
+		text-align: center;
+		background: gray;
+		padding: .5em;
+		margin-right: 2%;
+	}
 
 footer{
 	text-align: center;
 }
 
-/**************************************
-			LOGIN
-***************************************/
-.login{
-	margin: 1em 33%;
-}
-	.login label{
-	}
 
-	.login input{
-		width: 100%;
+.text{
+	font-size: 1.5em;
+	margin: 2em 10%;
+	text-align: justify;
+}
+/**************************************
+			FORMS
+***************************************/
+.form-style{
+	background: lightgray;
+	padding: 2em;
+	margin: 2em 25%;
+	border: 10px solid black;
+	border-radius: 10px;
+}
+
+form{
+	text-align: center;
+}
+
+	form input{
 		margin-bottom: 1em;
 	}
 
-	.login input[type="submit"]{
-		float: right;
+	form input[type="submit"]{
 		border-radius: 10px;
 	}
 
@@ -78,4 +101,13 @@ MAPA
 **********************/
 section .googleMap{
 	height: 380px;
+}
+
+/***********************
+	DJANGO CLASS
+***********************/
+.errorlist {
+	font-weight: bold;
+	font-size: 1.2em;
+	color: #C52E32;
 }
