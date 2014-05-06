@@ -13,9 +13,14 @@
         MapFriends
     </header>
     <nav>
-       <a href="/login/" class="pure-button pure-button-active">Login</a>
-       <a href="/" class="pure-button pure-button-active">Inicio</a>
-       <a href="/register/" class="pure-button pure-button-active">Registrar</a>
+        <a href="{% url 'index' %}" class="pure-button pure-button-active">Inicio</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'map' %}" class="pure-button pure-button-active"> Mapa(DONT CLICK)</a>
+        <a href="{% url 'logout' %}" class="pure-button pure-button-active"> Cerrar Sesion</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="pure-button pure-button-active">Login</a>
+        <a href="{% url 'register' %}" class="pure-button pure-button-active">Registrar</a>
+        {% endif %}
     </nav>
     {% block index %}
         

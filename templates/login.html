@@ -2,12 +2,12 @@
 
 {% block login %}
 
-    <form class='form-style'>
+    <form action="." method="POST" class='form-style'>
         <h1>Login</h1>
         {% csrf_token %}
+        <span class="errorlist">{{ mensaje }}</span>
         {{ login.as_p }}
         <input type="submit" value="Login">
-        <h4>Registrate <a href="register/" class="">aqui</a></h4>
     </form>
 
 {% endblock login %}
