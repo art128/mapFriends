@@ -63,7 +63,7 @@ form{
 /**************************************
 			INFO
 ***************************************/
-section .box{
+.box{
 	border: 2px solid black;
 	margin:.5em;
 }
@@ -99,7 +99,7 @@ section .box{
 /**********************
 MAPA
 **********************/
-section .googleMap{
+.googleMap{
 	height: 380px;
 }
 

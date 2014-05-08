@@ -53,4 +53,5 @@ def register(request):
     return render_to_response('register.html', ctx, context_instance = RequestContext(request))
 
 def map(request):
-    return 
+    ctx = {}
+    return render_to_response('map.html', ctx, context_instance = RequestContext(request))
