@@ -1,53 +1,58 @@
-                        MAPFRIENDS
-=========================================================================
+MapFriends
 
-Practica de Programación Integrativa, de la universidad de Informática de A Coruña.
+Practica de la asignatura de Programación Integrativa, de la Universidad De A Coruña
 
 Instalación : (Ubuntu 32bits)
 
-    Si tienes pip instalado puedes saltar el primer paso
-        1. sudo apt-get install python-pip
-        2. sudo pip install Django==1.6.4
+Si tienes pip instalado puedes saltar el primer paso
+    1. sudo apt-get install python-pip
+    2. sudo pip install Django==1.6.4
 
-Estructura :
+Estructura
 
-    ├── manage.py
-    ├── mapFriends
-    │   ├── __init__.py
-    │   ├── settings.py
-    │   ├── urls.py
-    │   ├── views.py
-    │   └── wsgi.py
-    ├── README.md
-    ├── static
-    │   ├── image.jpg
-    │   └── style.css
-    └── templates
-        ├── base.html
-        ├── index.html
-        └── map.html
+├── manage.py
+├── mapFriends
+│   ├── facebook.py
+│   ├── facebook.pyc
+│   ├── forms.py
+│   ├── __init__.py
+│   ├── __init__.pyc
+│   ├── models.py
+│   ├── settings.py
+│   ├── settings.pyc
+│   ├── urls.py
+│   ├── urls.pyc
+│   ├── views.py
+│   ├── views.pyc
+│   ├── wsgi.py
+│   └── wsgi.pyc
+├── README.md
+├── static
+│   └── images
+│       ├── 1375281482760707.jpg
+│       ├── 1375456899409466.jpg
+│       └── 1398756853743237.jpg
+└── templates
+    ├── base.html
+    ├── home.html
+    └── map.html
 
+Templates : Se encuentran las vistas de la web, todas extienden de base.html
+mapFriends : Carpeta donde se encuentra la aplicación principal
+static : Archivos estatitos, como los css, imagenes ...
 
-    Templates : Se encuentran las vistas de la web, todas extienden de base.html
-    mapFriends : Carpeta donde se encuentra la aplicación principal
-    static : Archivos estatitos, como los css
 
 Configuración :
 
+La base de datos es un archivo sqlite que se encuentra en la carpeta anterior 
+al proyecto. Se puede cambiar esto modificando la ruta en el archivo settings.py
 
-    La base de datos es un archivo sqlite que se encuentra en la carpeta anterior 
-    al proyecto. Se puede cambiar esto modificando la ruta en el archivo settings.py
-    
-    Se tienen que definir el ID y el SECRET de la aplicación de facebook.
+Se tienen que definir el ID y el SECRET de la aplicación de facebook.
 
-Dependencias :
-
-    OpenId : python-openid
-    OAuth : python-oauth2
 
 Iniciar el servidor :
 
-    Si es la primera vez necesitaras crear las base de datos.
-        ./manage.py syncdb
-    Para arrancar el servidor
-        ./manage.py runserver
+Si es la primera vez necesitaras crear las base de datos.
+    ./manage.py syncdb
+Para arrancar el servidor
+    ./manage.py runserver

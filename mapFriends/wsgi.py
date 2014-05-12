@@ -1,5 +1,5 @@
 """
-WSGI config for mapFriends project.
+WSGI config for oher project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

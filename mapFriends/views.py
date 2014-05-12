@@ -1,57 +1,39 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
-from mapFriends.forms import LoginForm, RegistroForm
-from django.contrib.auth.models import User   
+from mapFriends.facebook import * 
 
-from django.contrib.auth import login, logout, authenticate
-from django.http import HttpResponseRedirect
 
-def index(request):
-    return render_to_response('index.html', context_instance = RequestContext(request))
+def home(request):
+    return render_to_response('home.html', {}, context_instance=RequestContext(request))
 
-def login_view(request):
-    mensaje = ""
-    if request.user.is_authenticated():
-        return HttpResponseRedirect('/')
+def login(request):
+    url = get_authorization_url(request)
+    return HttpResponseRedirect(url)
+
+def auth(request):
+    mensage = ''
+    if verify(request):
+        mensage = 'Login Correcto'
+        get_token(request)
     else:
-        if request.method == "POST":
-            form = LoginForm(request.POST)
-            if form.is_valid():
-                username = form.cleaned_data['username']
-                password = form.cleaned_data['password']
-                usuario = authenticate(username=username, password=password)
-                if usuario is not None and usuario.is_active:
-                    login(request, usuario)
-                    return HttpResponseRedirect('/')
-                else:
-                    mensaje = 'Usuario y/o password incorrecto'
-        form = LoginForm()
-        ctx = {'login' : form, 'mensaje' : mensaje}
-        return render_to_response('login.html',ctx, context_instance = RequestContext(request))
+        mensage = 'Login Incorrecto'
 
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect('/')
+    ctx = {'men' : mensage}
 
-def register(request):
-    register = RegistroForm()
-    if request.method == "POST":
-        register = RegistroForm(request.POST)
-        if register.is_valid():
-            usuario = register.cleaned_data['username']
-            email = register.cleaned_data['email']
-            password = register.cleaned_data['password']
-            password_confirm = register.cleaned_data['password_confirm']
-
-            u = User.objects.create_user(username=usuario, email=email, password=password)
-            u.save
-            return render_to_response('register_success.html', context_instance= RequestContext(request))
-        else:
-            ctx = {'register': register}
-            return render_to_response('register.html', ctx, context_instance=RequestContext(request))
-    ctx = {'register' : register }
-    return render_to_response('register.html', ctx, context_instance = RequestContext(request))
+    return render_to_response('home.html', ctx, context_instance=RequestContext(request))        
 
 def map(request):
-    ctx = {}
-    return render_to_response('map.html', ctx, context_instance = RequestContext(request))
+    friends = []
+    sites = []
+    location = []
+
+    data = get_user_data(request)
+    friends, sites = get_user_friends(request)
+    location = get_coordinates(request, sites)
+    take_image(friends)
+    ctx = {'user' : data, 'friends' : friends}
+    return render_to_response('map.html', ctx, context_instance=RequestContext(request))
+
+def logout(request):
+    user_logout(request)
+    return render_to_response('home.html', {}, context_instance=RequestContext(request))

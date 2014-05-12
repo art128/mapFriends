@@ -1,5 +1,5 @@
 """
-Django settings for mapFriends project.
+Django settings for oher project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=tju20u202a#a*-#9^=m@af9i4a)7!%h@txblicugr!08ofj6c'
+SECRET_KEY = '3*jd0ovf2uu14@orm&qrwgdc6d+behv=ou_u-h33z(#^3g-sl('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,16 +58,16 @@ WSGI_APPLICATION = 'mapFriends.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../sqlite3.db'),
+        'NAME': os.path.join(BASE_DIR, '../db.sqlite3'),
     }
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Madrid'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -81,14 +81,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+FACEBOOK_APP_ID = os.environ.get('ID')
+FACEBOOK_API_SECRET = os.environ.get('SECRET')
+
+SITE_URL = 'http://localhost:8000/auth'
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
-
-
-
-SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
