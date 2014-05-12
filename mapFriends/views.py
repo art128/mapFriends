@@ -25,12 +25,12 @@ def auth(request):
 def map(request):
     friends = []
     sites = []
-    location = []
+    #location = []
 
     data = get_user_data(request)
     friends, sites = get_user_friends(request)
-    location = get_coordinates(request, sites)
-    take_image(friends)
+    #location = get_coordinates(request, sites)
+    #take_image(friends)
     ctx = {'user' : data, 'friends' : friends}
     return render_to_response('map.html', ctx, context_instance=RequestContext(request))
 

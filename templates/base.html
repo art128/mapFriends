@@ -1,22 +1,45 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>
-        {% block Title %}
-                    
-        {% endblock Title %}        
+    {% block Title %}
+        
+    {% endblock Title %}
     </title>
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
 </head>
 <body>
-    {% block home %}
+    <header>
+        MapFriends
+    </header>
+    <nav>
+        <a href="{% url 'home' %}" class="pure-button pure-button-active">Inicio</a>
+        <a href="{% url 'map' %}" class="pure-button pure-button-active"> Mapa</a>
+        <a href="{% url 'logout' %}" class="pure-button pure-button-active"> Cerrar Sesion</a>
+        <a href="{% url 'login' %}" class="pure-button pure-button-active">Login</a>
+    </nav>
+    {% block index %}
         
-    {% endblock home %}
+    {% endblock index %}
+    <section class='pure-u-1-2'>
+        {% block login %}
+        
+        {% endblock login %}
+    </section>
+    <section class='pure-g'>
+        {% block map %}
+            
+        {% endblock map %}
+    </section>
 
-    {% block mapa %}
-        
-    {% endblock mapa %}
+    <footer>
+        Aplicación creada para la asignatura de Programación Integrativa de la Universidad de A Coruña.
+    </footer>
 </body>
 </html>

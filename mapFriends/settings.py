@@ -86,6 +86,10 @@ FACEBOOK_API_SECRET = os.environ.get('SECRET')
 
 SITE_URL = 'http://localhost:8000/auth'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
