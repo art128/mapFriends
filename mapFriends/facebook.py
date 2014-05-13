@@ -107,16 +107,16 @@ def get_user_friends(request):
     #Bucle para recorrer todo el array
     for friend in friends['data']:
         dicc = {}
-        dicc['name'] = friend['name']
-        dicc['id'] = friend['id']
+        dicc['name'] = str(friend['name'])
+        dicc['id'] = str(friend['id'])
         graph_url = 'https://graph.facebook.com/' \
             + dicc['id'] \
             + '?access_token=' + request.session['facebook_access_token']
 
         response = urllib2.urlopen(graph_url).read()
         user = json.loads(response)
-        dicc['location'] = user['location']['id']
-        dicc['hometown'] = user['hometown']['id']
+        dicc['location'] = str(user['location']['id'])
+        dicc['hometown'] = str(user['hometown']['id'])
 
         if dicc['hometown'] not in sites_list:
             sites_list.append(dicc['hometown'])
@@ -135,7 +135,7 @@ def get_user_friends(request):
         picture = json.loads(response)
 
         if not picture['data']['is_silhouette']:
-            dicc['picture'] = picture['data']['url']
+            dicc['picture'] = str(picture['data']['url'])
         else:
             dicc['picture'] = ''
 
@@ -154,7 +154,7 @@ def get_coordinates(request, sites):
 
         response = urllib2.urlopen(graph_url).read()
         coordinates = json.loads(response)
-        position['id'] = site
+        position['id'] = str(site)
         position['longitude'] = coordinates['location']['longitude']
         position['latitude'] = coordinates['location']['latitude']
         data.append(position)
@@ -189,6 +189,9 @@ def take_image(usuarios):
 
 
 def user_logout(request):
-
     del request.session['facebook_access_token']
     del request.session['facebook_access_expires']
+    if request.session.has_key('facebook_access_token') and request.session.has_key('facebook_access_expires'):
+        return False
+    else:
+        return True

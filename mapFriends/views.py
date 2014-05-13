@@ -25,15 +25,22 @@ def auth(request):
 def map(request):
     friends = []
     sites = []
-    #location = []
-
+    location = []
     data = get_user_data(request)
     friends, sites = get_user_friends(request)
-    #location = get_coordinates(request, sites)
+    location = get_coordinates(request, sites)
     #take_image(friends)
-    ctx = {'user' : data, 'friends' : friends}
+    
+    ctx = {'user' : data, 'friends' : friends, 'places' : location}
     return render_to_response('map.html', ctx, context_instance=RequestContext(request))
 
 def logout(request):
-    user_logout(request)
-    return render_to_response('home.html', {}, context_instance=RequestContext(request))
+    message = ""
+    exit = user_logout(request)
+    if exit:
+        print "Logout Completed Successfull"
+        return HttpResponseRedirect('/')
+    else:
+        print "Error Logout"
+
+    return render_to_response('home.html', {'men' : message}, context_instance=RequestContext(request))
