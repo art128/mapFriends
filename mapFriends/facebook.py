@@ -115,8 +115,16 @@ def get_user_friends(request):
 
         response = urllib2.urlopen(graph_url).read()
         user = json.loads(response)
-        dicc['location'] = str(user['location']['id'])
-        dicc['hometown'] = str(user['hometown']['id'])
+        
+        if user.has_key('location'):
+            dicc['location'] = str(user['location']['id'])
+        else:
+            dicc['location'] = None
+
+        if user.has_key('hometown'):
+            dicc['hometown'] = str(user['hometown']['id'])
+        else:
+            dicc['hometown'] = None
 
         if dicc['hometown'] not in sites_list:
             sites_list.append(dicc['hometown'])
@@ -127,7 +135,7 @@ def get_user_friends(request):
         graph_url = 'https://graph.facebook.com/' \
             + dicc['id'] \
             + '/picture?' \
-            + 'type=normal' \
+            + 'type=square' \
             + '&redirect=false' \
             + '&access_token=' + request.session['facebook_access_token']
         
@@ -147,17 +155,18 @@ def get_coordinates(request, sites):
     data = []
 
     for site in sites:
-        position = {}
-        graph_url = 'https://graph.facebook.com/' \
-            + site \
-            + '?access_token=' + request.session['facebook_access_token']
+        if not site is None:
+            position = {}
+            graph_url = 'https://graph.facebook.com/' \
+                + site \
+                + '?access_token=' + request.session['facebook_access_token']
 
-        response = urllib2.urlopen(graph_url).read()
-        coordinates = json.loads(response)
-        position['id'] = str(site)
-        position['longitude'] = coordinates['location']['longitude']
-        position['latitude'] = coordinates['location']['latitude']
-        data.append(position)
+            response = urllib2.urlopen(graph_url).read()
+            coordinates = json.loads(response)
+            position['id'] = str(site)
+            position['longitude'] = coordinates['location']['longitude']
+            position['latitude'] = coordinates['location']['latitude']
+            data.append(position)
 
     return data
 
@@ -181,11 +190,17 @@ def image_filter(entrada,output):
 def take_image(usuarios):
     for usuario in usuarios:
         path_input = settings.BASE_DIR + '/static/images/' + usuario['id'] + '.jpg'
-        path_output = settings.BASE_DIR + '/<static></static>/images/' + usuario['id'] + '_sepia.jpg'
-        print "Descargando Imagen:"
+        path_output = settings.BASE_DIR + '/static/images/' + usuario['id'] + '_sepia.jpg'
         download_picture(usuario['picture'], path_input)
-        print "Aplicando el filtro a al imagen:"
         image_filter(path_input, path_output)
+        path_output = '/static/images/' + usuario['id'] + '_sepia.jpg'
+        usuario['picture'] = path_output
+        if usuario['hometown'] is None:
+            usuario['hometown'] = "None"
+        if usuario['location'] is None:
+            usuario['location'] = "None"
+
+    return usuarios
 
 
 def user_logout(request):

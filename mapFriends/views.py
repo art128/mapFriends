@@ -29,8 +29,8 @@ def map(request):
     data = get_user_data(request)
     friends, sites = get_user_friends(request)
     location = get_coordinates(request, sites)
-    #take_image(friends)
-    
+    friends = take_image(friends)
+
     ctx = {'user' : data, 'friends' : friends, 'places' : location}
     return render_to_response('map.html', ctx, context_instance=RequestContext(request))
 
