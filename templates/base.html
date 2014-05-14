@@ -20,17 +20,24 @@
     </header>
     <nav>
         <a href="{% url 'home' %}" class="pure-button pure-button-active">Inicio</a>
-        <a href="{% url 'map' %}" class="pure-button pure-button-active"> Mapa</a>
-        <a href="{% url 'logout' %}" class="pure-button pure-button-active"> Cerrar Sesion</a>
-        <a href="{% url 'login' %}" class="pure-button pure-button-active">Login</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'map' %}" class="pure-button pure-button-active"> Mapa</a>
+            <a href="{% url 'logout' %}" class="pure-button pure-button-active"> Cerrar Sesion</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="pure-button pure-button-active">Login</a>
+            <a href="{% url 'register' %}" class="pure-button pure-button-active">Registro</a>
+        {% endif %}
+        
     </nav>
     {% block index %}
         
     {% endblock index %}
-    <section class='pure-u-1-2'>
-        {% block login %}
-        
-        {% endblock login %}
+    <section class='pure-g'>
+        <section class='pure-u-1'>
+            {% block login %}
+            
+            {% endblock login %}
+        </section>
     </section>
     <section class='pure-g'>
         {% block map %}

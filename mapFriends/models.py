@@ -1,10 +1,8 @@
-'''
 from django.db import models
+from django.contrib.auth.models import User
 
-
-class User(models.Model):
-    Id = models.IntegerField(primary_key=True)
-    Name = models.CharField()
-    Email = models.CharField()
-    Password = models.CharField()
-'''
+class Facebook(models.Model):
+    user = models.OneToOneField(User)
+    uid = models.CharField(max_length=255, primary_key=True)
+    access_token = models.CharField(max_length=255)
+    expire_token = models.CharField(max_length=255)

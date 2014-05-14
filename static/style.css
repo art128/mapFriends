@@ -29,6 +29,7 @@ nav{
 
 footer{
 	text-align: center;
+	margin-top: 3em;
 }
 
 
@@ -66,6 +67,7 @@ form{
 .box{
 	border: 2px solid black;
 	margin:.5em;
+	border-radius: 15px;
 }
 
 .user{
@@ -73,28 +75,42 @@ form{
 }
 
 .user img{
+	border: 3px solid black;
+	height: 100px;
+	width: 80px;
 }
 
-.user p{
+.user h1{
+	margin-top: -.1em; 
 	text-align: center;
 }
 
+.user article ul {
+	padding: .5em;
+	border: 1px solid black;
+	overflow-y: scroll;
+	max-height: 200px;
+}
+
 .user article li{
-	text-align: justify;
+	font-weight: bold;
+	text-align: center;
 	padding: .5em 0;
 }
 
-.find input{
-	margin: 1em 0 .5em 20%;
+.find {
+	padding: 1em;
 }
 
-.find input[type="submit"]{
-	margin-left: 60%;
-	border-radius: 10px;
-	font-weight: bold;
-	font-size: 1.2em;
+.find select {
+	margin: 1em;
 }
 
+.find button{
+	border: 2px solid black;
+	border-radius: 1em;
+	margin-left: 3em;
+}
 
 /**********************
 MAPA

@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mapFriends',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,7 +85,7 @@ STATIC_URL = '/static/'
 FACEBOOK_APP_ID = os.environ.get('ID')
 FACEBOOK_API_SECRET = os.environ.get('SECRET')
 
-SITE_URL = 'http://localhost:8000/auth'
+SITE_URL = 'http://localhost:8000/register'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),

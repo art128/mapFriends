@@ -41,47 +41,47 @@ def verify(request):
  
 def get_token(request):
  
-        # if we don't have a token yet, get one now
-        if 'facebook_access_token' not in request.session:
- 
-            # URL to where we will redirect to
-            redirect_url = urllib.quote_plus(settings.SITE_URL)
- 
-            # set the token URL
-            url = 'https://graph.facebook.com/oauth/access_token?' \
-                  + 'client_id=' + settings.FACEBOOK_APP_ID \
-                  + '&redirect_uri=' + redirect_url \
-                  + '&client_secret=' + settings.FACEBOOK_API_SECRET \
-                  + '&code=' + request.GET['code']
- 
-            # grab the token from FB
-            response = urllib2.urlopen(url).read()
- 
-            # parse the response
-            # {'access_token': ['AAAGVChRC0ygBAF3...'], 'expires': ['5183529']}
-            params = urlparse.parse_qs(response)
- 
-            # save the token
-            request.session['facebook_access_token'] = params['access_token'][0]
-            request.session['facebook_access_expires'] = params['expires'][0]
+    # URL to where we will redirect to
+    redirect_url = urllib.quote_plus(settings.SITE_URL)
 
-def get_user_data(request):
+    # set the token URL
+    url = 'https://graph.facebook.com/oauth/access_token?' \
+          + 'client_id=' + settings.FACEBOOK_APP_ID \
+          + '&redirect_uri=' + redirect_url \
+          + '&client_secret=' + settings.FACEBOOK_API_SECRET \
+          + '&code=' + request.GET['code']
+
+    # grab the token from FB
+    response = urllib2.urlopen(url).read()
+
+    # parse the response
+    # {'access_token': ['AAAGVChRC0ygBAF3...'], 'expires': ['5183529']}
+    params = urlparse.parse_qs(response)
+
+    # save the token
+    #request.session['facebook_access_token'] = params['access_token'][0]
+    #request.session['facebook_access_expires'] = params['expires'][0]
+    return params
+
+def get_user_data(request, token):
 
     data = {}
 
     graph_url = 'https://graph.facebook.com/me?' \
-        + 'access_token=' + request.session['facebook_access_token']
+        + 'access_token=' + token
  
     # get the user's data from facebook
     response = urllib2.urlopen(graph_url).read()
     user = json.loads(response)
 
     data['name'] = user['name']
+    data['id'] = user['id']
+    data['email'] = user['email']
 
     graph_url = 'https://graph.facebook.com/me/picture?' \
         + 'type=normal' \
         + '&redirect=false' \
-        + '&access_token=' + request.session['facebook_access_token']
+        + '&access_token=' + token
 
     response = urllib2.urlopen(graph_url).read()
 

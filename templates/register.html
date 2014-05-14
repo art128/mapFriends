@@ -1,12 +1,15 @@
-{% include "base.html" %}
+{% extends "base.html" %}
+
+{% block Title %}
+    mapFriends Registro
+{% endblock Title %}
 
 {% block login %}
-    
-    <form action='.' method='POST' class='form-style'>
+    <form action="." method="POST" class='form-style'>
         <h1>Registro</h1>
         {% csrf_token %}
+        <span class="errorlist">{{ mensaje }}</span>
         {{ register.as_p }}
-        <input type="submit" value="Registrar">
-    </form>    
-
+        <input type="submit" value="Registro">
+    </form>
 {% endblock login %}

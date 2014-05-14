@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     url(r'^auth/', 'mapFriends.views.auth', name='auth'),
     url(r'^map/', 'mapFriends.views.map', name='map'),
     url(r'^logout/', 'mapFriends.views.logout', name='logout'),
+    url(r'^register/', 'mapFriends.views.register', name='register'),
     url(r'^admin/', include(admin.site.urls)),
 )
