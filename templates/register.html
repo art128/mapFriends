@@ -9,7 +9,8 @@
         <h1>Registro</h1>
         {% csrf_token %}
         <span class="errorlist">{{ mensaje }}</span>
-        {{ register.as_p }}
+        <p><label for="">Password : </label>{{ register.password }}</p>
+        <p><label for="">Password Repeat : </label>{{ register.password_confirm }}</p>
         <input type="submit" value="Registro">
     </form>
 {% endblock login %}
