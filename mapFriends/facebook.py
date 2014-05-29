@@ -15,7 +15,6 @@ def get_authorization_url(request):
 
     request.session['facebook_state'] = unicode(csrf(request)['csrf_token'])
 
-
     # redirect to facebook for approval
     url = 'https://www.facebook.com/dialog/oauth?' \
         + 'client_id=' + settings.FACEBOOK_APP_ID \

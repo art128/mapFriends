@@ -10,40 +10,56 @@ def home(request):
 
 def login(request):
     
+    if request.method == "POST":
+        login = LoginForm(request.POST)
+        if login.is_valid():
+            print login.cleaned_data['username']
+            try:
+                user = User.objects.get(username=login.cleaned_data['username'])
+                #Implementar el login correctamente
+                #Comprobar la contraseña
+                #Guardar contraseña es correcto??
+                #Comprobar el accestoken, implemtarlo
+            except User.DoesNotExist:
+                print "NO EXISTE"
+
     form = LoginForm()
     ctx = {'login' : form}
     return render_to_response('login.html', ctx, context_instance=RequestContext(request))        
 
-
-
 def register(request):
+    print "ENTRANDO EN REGISRO"
     if request.method == "POST":
-        print "POST"
+        print "REGISTRANDO UN USUARIO"
+        token = request.session['token']
+        name = request.session['name']
         register = RegistroForm(request.POST)
         password = register['password']
-        name = request.session['name']
-        token = request.session['token']
+
         try:
-            u = User.objects.get(email=name['name'])
+            u = User.objects.get(username=name['name'])
         except User.DoesNotExist:
             user = User.objects.create_user(username=name['name'], email=name['email'], password=password)
             facebook_user = UserProfile(user=user, access_token=token['access_token'][0])
             facebook_user.save()
-            return render_to_response('home.html', {}, context_instance=RequestContext(request))
-        return render_to_response('register.html', {}, context_instance=RequestContext(request))#ERROR CASEW
+            ctx = {'msg' : 'OK'}
+            return render_to_response('home.html', ctx, context_instance=RequestContext(request))
+        ctx = {'msg' : 'ERROR'}
+        print "ERROR USUARIO EXISTE"
+        return HttpResponseRedirect('/')
 
     if 'code' not in request.GET: #Comprobamos si tenemos acceso a sus datos
         url = get_authorization_url(request)
-        print "REDIRECT"
+        
         return HttpResponseRedirect(url)
-
+    print "NO HE REGISTRADO NADA"
     token = get_token(request)
     name = get_user_data(request, token['access_token'][0])
     request.session['token'] = token
     request.session['name'] = name
-    print "WTF"
     form = RegistroForm()
     ctx = {'register' : form}
+
     return render_to_response('register.html', ctx, context_instance=RequestContext(request))
 
 def auth(request):
@@ -54,7 +70,7 @@ def auth(request):
     else:
         mensage = 'Login Incorrecto'
 
-    ctx = {'men' : mensage}
+    ctx = {'msg' : mensage}
 
     return render_to_response('home.html', ctx, context_instance=RequestContext(request))        
 
@@ -79,4 +95,4 @@ def logout(request):
     else:
         print "Error Logout"
 
-    return render_to_response('home.html', {'men' : message}, context_instance=RequestContext(request))
+    return render_to_response('home.html', {'msg' : message}, context_instance=RequestContext(request))

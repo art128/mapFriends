@@ -5,7 +5,7 @@
 {% endblock Title %}
 
 {% block login %}
-    <form action="." method="POST" class='form-style'>
+    <form action="{% url 'register' %}" method="POST" class='form-style'>
         <h1>Registro</h1>
         {% csrf_token %}
         <span class="errorlist">{{ mensaje }}</span>
