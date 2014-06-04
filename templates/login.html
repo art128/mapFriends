@@ -9,7 +9,7 @@
     <form action="." method="POST" class='form-style'>
         <h1>Login</h1>
         {% csrf_token %}
-        <span class="errorlist">{{ mensaje }}</span>
+        <span class="errorlist">{{ msg }}</span>
         {{ login.as_p }}
         <input type="submit" value="Login">
     </form>
