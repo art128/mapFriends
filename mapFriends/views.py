@@ -4,62 +4,70 @@ from django.template import RequestContext
 from mapFriends.facebook import * 
 from mapFriends.forms import *
 from mapFriends.models import *
+from django.contrib.auth import authenticate, login, logout
 
 def home(request):
     return render_to_response('home.html', {}, context_instance=RequestContext(request))
 
-def login(request):
+def login_view(request):
     
     if request.method == "POST":
-        login = LoginForm(request.POST)
-        if login.is_valid():
-            print login.cleaned_data['username']
-            try:
-                user = User.objects.get(username=login.cleaned_data['username'])
-                #Implementar el login correctamente
-                #Comprobar la contraseña
-                #Guardar contraseña es correcto??
-                #Comprobar el accestoken, implemtarlo
-            except User.DoesNotExist:
-                print "NO EXISTE"
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    print "[login] Usuario valido"
+                    login(request, user)
+                    return HttpResponseRedirect("/")
+                else:
+                    print "[login] Usuario no activo"
+                    return HttpResponseRedirect("/")
+            else:
+                print "[login] Usuario o pass incorrecto"
+            
 
     form = LoginForm()
     ctx = {'login' : form}
+    print "[login] Enviando formulario de registro"
     return render_to_response('login.html', ctx, context_instance=RequestContext(request))        
 
 def register(request):
-    print "ENTRANDO EN REGISRO"
     if request.method == "POST":
-        print "REGISTRANDO UN USUARIO"
         token = request.session['token']
         name = request.session['name']
         register = RegistroForm(request.POST)
-        password = register['password']
+        if register.is_valid():
+            password = register.cleaned_data['password']
+            try:
+                u = User.objects.get(username=name['name'])
+            except User.DoesNotExist:
+                user = User.objects.create_user(username=name['name'], email=name['email'], password=password)
+                facebook_user = UserProfile(user=user, access_token=token['access_token'][0], expired_token=token['expires'][0])
+                facebook_user.save()
+                ctx = {'msg' : 'OK'}
+                print "[register] Registrando Usuario"
+                return render_to_response('home.html', ctx, context_instance=RequestContext(request))
 
-        try:
-            u = User.objects.get(username=name['name'])
-        except User.DoesNotExist:
-            user = User.objects.create_user(username=name['name'], email=name['email'], password=password)
-            facebook_user = UserProfile(user=user, access_token=token['access_token'][0])
-            facebook_user.save()
-            ctx = {'msg' : 'OK'}
-            return render_to_response('home.html', ctx, context_instance=RequestContext(request))
-        ctx = {'msg' : 'ERROR'}
-        print "ERROR USUARIO EXISTE"
-        return HttpResponseRedirect('/')
+            ctx = {'msg' : 'ERROR'}
+            print "[register] Usuario ya existe"
+            return HttpResponseRedirect('/')
 
     if 'code' not in request.GET: #Comprobamos si tenemos acceso a sus datos
         url = get_authorization_url(request)
-        
+        print "[register] Obteniendo facebook"
         return HttpResponseRedirect(url)
-    print "NO HE REGISTRADO NADA"
+
     token = get_token(request)
     name = get_user_data(request, token['access_token'][0])
     request.session['token'] = token
     request.session['name'] = name
     form = RegistroForm()
     ctx = {'register' : form}
-
+    print "[register] Enviando un formuladio de registro"
     return render_to_response('register.html', ctx, context_instance=RequestContext(request))
 
 def auth(request):
@@ -86,13 +94,7 @@ def map(request):
     ctx = {'user' : data, 'friends' : friends, 'places' : location}
     return render_to_response('map.html', ctx, context_instance=RequestContext(request))
 
-def logout(request):
-    message = ""
-    exit = user_logout(request)
-    if exit:
-        print "Logout Completed Successfull"
-        return HttpResponseRedirect('/')
-    else:
-        print "Error Logout"
+def logout_view(request):
+    logout(request)
 
-    return render_to_response('home.html', {'msg' : message}, context_instance=RequestContext(request))
+    return HttpResponseRedirect("/")
