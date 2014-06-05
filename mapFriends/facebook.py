@@ -1,12 +1,17 @@
 from django.conf import settings
 from django.core.context_processors import csrf
 from django.conf import settings
+from django.contrib.auth.models import User
+
 from ctypes import *
+
+from mapFriends.models import UserProfile
+
 import urllib
 import urllib2
 import urlparse
 import json
-
+import re
 
 def get_authorization_url(request):
     
@@ -55,6 +60,50 @@ def get_token(request):
 
     return params
 
+def update_token(request, code):
+
+    redirect_url = urllib.quote_plus(settings.SITE_URL)
+
+    url = 'https://graph.facebook.com/oauth/access_token?' \
+          + 'client_id=' + settings.FACEBOOK_APP_ID \
+          + '&redirect_uri=' + redirect_url \
+          + '&client_secret=' + settings.FACEBOOK_API_SECRET \
+          + '&code=' + code
+
+    response = urllib2.urlopen(url).read()
+
+
+    params = urlparse.parse_qs(response)
+
+    return params
+
+def test_token(request, token):
+    graph_url = 'https://graph.facebook.com/me?' \
+        + 'access_token=' + token
+    try:
+        response = urllib2.urlopen(graph_url).read()
+        print response
+    except urllib2.HTTPError, error:
+        con = error.read()
+        data = json.loads(con)
+        error = data['error']['message']
+        regix = '^Invalid\s\D*\stoken\.$' #Invalid OAuth access token.
+        if re.match(regix, error):
+            print "[test] Obteniendo nuevo token"
+            user = User.objects.get(username=request.user)
+            profile = UserProfile.objects.get(user=user)
+            code = profile.code
+            token = update_token(request,code)
+            profile.access_token = token['access_token'][0]
+            profile.save()
+            return True
+        else:            
+            print "[test] Error desconocido"
+
+    return False
+        
+
+
 def get_user_data(request, token):
     print "[get_user_data] Obteniendo informacion de uno mismo"
     data = {}
@@ -64,6 +113,8 @@ def get_user_data(request, token):
  
     # get the user's data from facebook
     response = urllib2.urlopen(graph_url).read()
+    print "[get_user_data] Test contra el access_token"
+    print response
     user = json.loads(response)
 
     data['name'] = user['name']

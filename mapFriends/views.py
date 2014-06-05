@@ -4,13 +4,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 
-from mapFriends.facebook import get_authorization_url,get_token,get_user_data,get_user_friends,get_coordinates
+from mapFriends.facebook import test_token, get_authorization_url,get_token,get_user_data,get_user_friends,get_coordinates
 from mapFriends.images import take_image
 from mapFriends.forms import LoginForm, RegisterForm
 from mapFriends.models import UserProfile
 
 def home(request):
-    return render_to_response('home.html', {}, context_instance=RequestContext(request))
+    test(request, 'a')
+    return render_to_response('index.html', {}, context_instance=RequestContext(request))
 
 def login_view(request):
     msg = ''
@@ -54,7 +55,7 @@ def register_view(request):
                 u = User.objects.get(username=name['name'])
             except User.DoesNotExist:
                 user = User.objects.create_user(username=name['name'], email=name['email'], password=password)
-                facebook_user = UserProfile(user=user, access_token=token['access_token'][0], expired_token=token['expires'][0])
+                facebook_user = UserProfile(user=user, access_token=token['access_token'][0], code=request.get['code'])
                 facebook_user.save()
         
                 ctx = {'msg' : 'OK'}
@@ -91,16 +92,22 @@ def map(request):
     data = []
     
     user = User.objects.filter(username=request.user)
-    profile = UserProfile.objects.filter(user=user)
+    profile = UserProfile.objects.get(user=user)
 
-    token = profile[0].access_token
-    
+    token = profile.access_token
+
+    if test_token(request, token):#Test if token is valid
+        print "[map] Change token"
+        profile = UserProfile.objects.filter(user=user)
+        token = profile.access_token
+
     data = get_user_data(request, token)
+
     friends, sites = get_user_friends(request, token)
     location = get_coordinates(request, sites, token)
     friends = take_image(friends)
 
-    ctx = {'user' : data, 'friends' : friends, 'places' : location}
+    ctx = {'data' : data, 'friends' : friends, 'places' : location}
     return render_to_response('map.html', ctx, context_instance=RequestContext(request))
 
 def logout_view(request):

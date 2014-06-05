@@ -24,7 +24,6 @@
             <a href="{% url 'map' %}" class="pure-button pure-button-active"> Mapa</a>
             <a href="{% url 'logout' %}" class="pure-button pure-button-active"> Cerrar Sesion</a>
         {% else %}
-        Porque sale esto si estoy registrado
             <a href="{% url 'login' %}" class="pure-button pure-button-active">Login</a>
             <a href="{% url 'register' %}" class="pure-button pure-button-active">Registro</a>
         {% endif %}
