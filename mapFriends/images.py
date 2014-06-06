@@ -9,7 +9,7 @@ def download_picture(url, name):
         f.write(furl.read())
         f.close()
     except:
-        print 'Unable to download file'
+        print '[donwload_picture] Unable to download file'
 
 def image_filter(entrada,output):
     print "[image_filter] Aplicando filtro"

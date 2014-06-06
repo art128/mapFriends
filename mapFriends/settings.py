@@ -86,6 +86,7 @@ FACEBOOK_APP_ID = os.environ.get('ID')
 FACEBOOK_API_SECRET = os.environ.get('SECRET')
 
 SITE_URL = 'http://localhost:8000/register'
+SITE_URL_MAP = 'http://localhost:8000/map'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),

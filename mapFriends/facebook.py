@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.context_processors import csrf
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.shortcuts import  HttpResponseRedirect
 
 from ctypes import *
 
@@ -60,15 +61,31 @@ def get_token(request):
 
     return params
 
-def update_token(request, code):
+def get_code(request):
+    
+    # URL to where Facebook will redirect to
+    redirect_url = urllib.quote_plus(settings.SITE_URL_MAP)
 
-    redirect_url = urllib.quote_plus(settings.SITE_URL)
+    request.session['facebook_state'] = unicode(csrf(request)['csrf_token'])
+
+    # redirect to facebook for approval
+    url = 'https://www.facebook.com/dialog/oauth?' \
+        + 'client_id=' + settings.FACEBOOK_APP_ID \
+        + '&redirect_uri=' + redirect_url \
+        + '&scope=email,public_profile,user_friends,user_hometown,user_location,user_about_me' \
+        + '&state=' + request.session['facebook_state']
+
+    return url
+
+def update_token(request):
+
+    redirect_url = urllib.quote_plus(settings.SITE_URL_MAP)
 
     url = 'https://graph.facebook.com/oauth/access_token?' \
           + 'client_id=' + settings.FACEBOOK_APP_ID \
           + '&redirect_uri=' + redirect_url \
           + '&client_secret=' + settings.FACEBOOK_API_SECRET \
-          + '&code=' + code
+          + '&code=' + request.GET['code']
 
     response = urllib2.urlopen(url).read()
 
@@ -80,28 +97,37 @@ def update_token(request, code):
 def test_token(request, token):
     graph_url = 'https://graph.facebook.com/me?' \
         + 'access_token=' + token
+
     try:
-        response = urllib2.urlopen(graph_url).read()
-        print response
+        response = urllib2.urlopen(graph_url)
+        print "[test_token] El token funciona"
     except urllib2.HTTPError, error:
         con = error.read()
+        print con
         data = json.loads(con)
         error = data['error']['message']
         regix = '^Invalid\s\D*\stoken\.$' #Invalid OAuth access token.
         if re.match(regix, error):
+            print "[test_token] El token no funciona"
+            if 'code' not in request.GET: #Comprobamo si tenemos el code
+                print "[test_token] new code"
+                return get_code(request)
+        
             print "[test] Obteniendo nuevo token"
+            token = update_token(request)
+            print token
             user = User.objects.get(username=request.user)
+            print user
             profile = UserProfile.objects.get(user=user)
-            code = profile.code
-            token = update_token(request,code)
             profile.access_token = token['access_token'][0]
             profile.save()
-            return True
-        else:            
-            print "[test] Error desconocido"
+            print "[test_token] Guardando en nuevo token"
+            return "/map"
 
-    return False
-        
+        else:            
+            print "[test] Error desconocido"     
+
+    return ""
 
 
 def get_user_data(request, token):
@@ -113,8 +139,6 @@ def get_user_data(request, token):
  
     # get the user's data from facebook
     response = urllib2.urlopen(graph_url).read()
-    print "[get_user_data] Test contra el access_token"
-    print response
     user = json.loads(response)
 
     data['name'] = user['name']

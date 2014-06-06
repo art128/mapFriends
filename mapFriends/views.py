@@ -10,7 +10,6 @@ from mapFriends.forms import LoginForm, RegisterForm
 from mapFriends.models import UserProfile
 
 def home(request):
-    test(request, 'a')
     return render_to_response('index.html', {}, context_instance=RequestContext(request))
 
 def login_view(request):
@@ -55,13 +54,13 @@ def register_view(request):
                 u = User.objects.get(username=name['name'])
             except User.DoesNotExist:
                 user = User.objects.create_user(username=name['name'], email=name['email'], password=password)
-                facebook_user = UserProfile(user=user, access_token=token['access_token'][0], code=request.get['code'])
+                facebook_user = UserProfile(user=user, access_token=token['access_token'][0])
                 facebook_user.save()
         
                 ctx = {'msg' : 'OK'}
         
                 print "[register] Registrando Usuario"
-                return render_to_response('home.html', ctx, context_instance=RequestContext(request))
+                return render_to_response('index.html', ctx, context_instance=RequestContext(request))
 
             ctx = {'msg' : 'ERROR'}
         
@@ -86,20 +85,20 @@ def register_view(request):
     return render_to_response('register.html', ctx, context_instance=RequestContext(request))
 
 def map(request):
-    friends = []
-    sites = []
-    location = []
-    data = []
     
     user = User.objects.filter(username=request.user)
     profile = UserProfile.objects.get(user=user)
 
     token = profile.access_token
+    print "Ejecutando"
+    url = test_token(request, token)#Test if token is valid
+    if url != "":
+        print "URL NOT EMPTY"
+        return HttpResponseRedirect(url)
 
-    if test_token(request, token):#Test if token is valid
-        print "[map] Change token"
-        profile = UserProfile.objects.filter(user=user)
-        token = profile.access_token
+    print "[map] Change token"
+    profile = UserProfile.objects.get(user=user)
+    token = profile.access_token
 
     data = get_user_data(request, token)
 
