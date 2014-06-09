@@ -8,7 +8,7 @@
     <form action="{% url 'register' %}" method="POST" class='form-style'>
         <h1>Registro</h1>
         {% csrf_token %}
-        <span class="errorlist">{{ mensaje }}</span>
+        {% include "messages.html" %}
        {{register.as_p}}
         <input type="submit" value="Registro">
     </form>

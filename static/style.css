@@ -122,8 +122,17 @@ MAPA
 /***********************
 	DJANGO CLASS
 ***********************/
-.errorlist {
-	font-weight: bold;
-	font-size: 1.2em;
-	color: #C52E32;
+.info {
+	text-align: center;
+	color : blue;
+}
+
+.warning, .error {
+	text-align: center;
+	color: red;
+}
+
+.success {
+	text-align: center;
+	color : green;
 }
