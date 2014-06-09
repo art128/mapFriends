@@ -37,7 +37,6 @@ Estructura
     ├── messages.html
     └── register.html
 
-
 Templates : Se encuentran las vistas de la web, todas extienden de base.html
 mapFriends : Carpeta donde se encuentra la aplicación principal
 static : Archivos estatitos, como los css, imagenes ...
