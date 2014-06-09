@@ -1,0 +1,39 @@
+.
+├── a.txt
+├── manage.py
+├── mapFriends
+│   ├── admin.py
+│   ├── facebook.py
+│   ├── forms.py
+│   ├── images.py
+│   ├── __init__.py
+│   ├── models.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── views.py
+│   └── wsgi.py
+├── README.md
+├── static
+│   ├── images
+│   │   ├── 1375281482760707.jpg
+│   │   ├── 1375281482760707_sepia.jpg
+│   │   ├── 1375370739417999.jpg
+│   │   ├── 1375370739417999_sepia.jpg
+│   │   ├── 1375456899409466.jpg
+│   │   ├── 1375456899409466_sepia.jpg
+│   │   ├── 1390415634578250.jpg
+│   │   ├── 1390415634578250_sepia.jpg
+│   │   ├── 1398756853743237.jpg
+│   │   └── 1398756853743237_sepia.jpg
+│   ├── script.js
+│   └── style.css
+└── templates
+    ├── base.html
+    ├── home.html
+    ├── index.html
+    ├── login.html
+    ├── map.html
+    ├── messages.html
+    └── register.html
+
+4 directories, 32 files

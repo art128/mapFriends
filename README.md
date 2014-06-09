@@ -8,38 +8,40 @@ Si tienes pip instalado puedes saltar el primer paso
     1. sudo apt-get install python-pip
     2. sudo pip install Django==1.6.4
 
-Estructura
 
+Estructura
+.
 ├── manage.py
 ├── mapFriends
+│   ├── admin.py
 │   ├── facebook.py
-│   ├── facebook.pyc
 │   ├── forms.py
+│   ├── images.py
 │   ├── __init__.py
-│   ├── __init__.pyc
 │   ├── models.py
 │   ├── settings.py
-│   ├── settings.pyc
 │   ├── urls.py
-│   ├── urls.pyc
 │   ├── views.py
-│   ├── views.pyc
-│   ├── wsgi.py
-│   └── wsgi.pyc
+│   └── wsgi.py
 ├── README.md
 ├── static
-│   └── images
-│       ├── 1375281482760707.jpg
-│       ├── 1375456899409466.jpg
-│       └── 1398756853743237.jpg
+│   ├── images
+│   ├── script.js
+│   └── style.css
 └── templates
     ├── base.html
     ├── home.html
-    └── map.html
+    ├── index.html
+    ├── login.html
+    ├── map.html
+    ├── messages.html
+    └── register.html
+
 
 Templates : Se encuentran las vistas de la web, todas extienden de base.html
 mapFriends : Carpeta donde se encuentra la aplicación principal
 static : Archivos estatitos, como los css, imagenes ...
+images : Se encuentran las imagenes de perfil
 
 
 Configuración :
