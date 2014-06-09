@@ -38,9 +38,9 @@ Estructura
     └── register.html
 
 Templates : Se encuentran las vistas de la web, todas extienden de base.html
-mapFriends : Carpeta donde se encuentra la aplicación principal
-static : Archivos estatitos, como los css, imagenes ...
-images : Se encuentran las imagenes de perfil
+MapFriends : Carpeta donde se encuentra la aplicación principal
+Static : Archivos estatitos, como los css, imagenes ...
+Images : Se encuentran las imagenes de perfil
 
 
 Configuración :
